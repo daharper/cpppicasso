@@ -1,9 +1,18 @@
 cmake_minimum_required(VERSION 4.1)
 project(cpppicasso)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 23)
 
 add_executable(cpppicasso main.cpp
         Canvas.h
         Palette.h
-        Utils.h)
+        Utils.h
+        commands/UserCommand.h
+        commands/UserCommandManager.cpp
+        commands/UserCommandManager.h
+        commands/CreateCanvasUserCommand.cpp
+        commands/CreateCanvasUserCommand.h
+        commands/CommandObject.h
+        commands/CommandInputParser.cpp
+        commands/CommandInputParser.h
+)
