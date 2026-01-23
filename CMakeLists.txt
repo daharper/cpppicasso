@@ -3,4 +3,7 @@ project(cpppicasso)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(cpppicasso main.cpp)
+add_executable(cpppicasso main.cpp
+        Canvas.h
+        Palette.h
+        Utils.h)
