@@ -4,8 +4,8 @@ project(cpppicasso)
 set(CMAKE_CXX_STANDARD 23)
 
 add_executable(cpppicasso main.cpp
-        Canvas.h
-        Palette.h
+        Graphics/Canvas.h
+        Graphics/Palette.h
         Utils.h
         commands/UserCommand.h
         commands/UserCommandManager.cpp
@@ -15,4 +15,5 @@ add_executable(cpppicasso main.cpp
         commands/CommandObject.h
         commands/CommandInputParser.cpp
         commands/CommandInputParser.h
+        Graphics/Canvas.cpp
 )

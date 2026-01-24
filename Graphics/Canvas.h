@@ -18,6 +18,10 @@ struct SetPen { std::uint8_t ch; };
 struct SetColor { std::string color; };
 struct SetBgColor { std::string color; };
 struct DrawPixel { int x; int y; };
+struct SetBorderPen { std::uint8_t ch; };
+struct SetBorderColor { std::string color; };
+struct SetBgBorderColor { std::string color; };
+struct DrawBorderPixel { int x; int y; };
 struct CreateCanvas { int x; int y; };
 struct ClearCanvas {};
 
@@ -49,7 +53,7 @@ public:
     static constexpr int MIN_HEIGHT = 1;
     static constexpr int MAX_HEIGHT = 40;
 
-    static constexpr std::uint8_t DEFAULT_PEN = '@';
+    static constexpr std::uint8_t DEFAULT_PEN = '*';
 
     void reset() {
         width = 0;
@@ -92,6 +96,8 @@ public:
         if (canvasHeight < MIN_HEIGHT || canvasHeight > MAX_HEIGHT) {
             throw std::invalid_argument("Height must be between " + std::to_string(MIN_HEIGHT) + " and " + std::to_string(MAX_HEIGHT));
         }
+
+        blankCanvas();
 
         this->width = canvasWidth;
         this->height = canvasHeight;
@@ -138,7 +144,7 @@ public:
      */
     void setPixel(const int x, const int y) {
         verifyPixel(x, y);
-        addStep(DrawPixel{x-1, y-1});
+        addStep(DrawPixel{x, y});
     }
 
     /**
@@ -175,6 +181,8 @@ private:
             throw std::invalid_argument("There is no canvas.");
         }
     }
+
+    void blankCanvas();
 
     int width = 0;
     int height = 0;

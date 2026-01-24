@@ -9,7 +9,7 @@ std::optional<CommandObject> CommandInputParser::parse(const std::string& input)
     CommandObject command;
 
     command.text = text;
-    command.name = text.substr(0, 1);
+    command.name = static_cast<char>(std::toupper(text[0]));
 
     if (text.size() == 1) return command;
 

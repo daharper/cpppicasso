@@ -3,7 +3,7 @@
 
 #include <string>
 #include <vector>
-#include "../Canvas.h"
+#include "../Graphics/Canvas.h"
 
 class UserCommand {
 public:

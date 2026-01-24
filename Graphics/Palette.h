@@ -8,7 +8,7 @@
 #include <string>
 #include <map>
 #include <optional>
-#include "Utils.h"
+#include "../Utils.h"
 
 class Palette {
 public:
