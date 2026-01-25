@@ -1,9 +1,10 @@
-#ifndef CPPPICASSO_CREATE_CANVAS_COMMAND_H
-#define CPPPICASSO_CREATE_CANVAS_COMMAND_H
+#ifndef CPPPICASSO_PLOT_COMMAND_H
+#define CPPPICASSO_PLOT_COMMAND_H
 
+#include <string>
 #include "Command.h"
 
-class CreateCanvasCommand : public Command{
+class PlotCommand : public Command {
 public:
     [[nodiscard]] std::string getName() const override;
     [[nodiscard]] std::string getDescription() const override;
@@ -11,4 +12,5 @@ public:
     Operation& execute(Canvas& canvas, const CommandObject& command) override;
 };
 
-#endif //CPPPICASSO_CREATE_CANVAS_COMMAND_H
+
+#endif //CPPPICASSO_PLOT_COMMAND_H

@@ -1,0 +1,87 @@
+#include "Console.h"
+
+#include <iostream>
+#include <ostream>
+#include <variant>
+
+template<class... Ts>
+struct overloads : Ts... { using Ts::operator()...; };
+
+static auto visitor = overloads {
+    [](const SetCanvas& op) { Console::drawBorder(op); },
+    [](const SetPixel& op) { Console::drawPixel(op); }
+};
+
+void Console::execute(Operation& operation) {
+    for (auto& step: operation.steps) {
+        std::visit(visitor, step);
+    }
+}
+
+void Console::execute(const Canvas &canvas) {
+    for (const auto&[operation, steps]: canvas) {
+        for (auto& step: steps) {
+            std::visit(visitor, step);
+        }
+    }
+
+    moveCursor(0, canvas.getHeight() + 4);
+}
+
+void Console::drawBorder(const SetCanvas& op) {
+    const std::string xLine = '-' + std::string(op.width, '-') + '-';
+    const std::string yLine = '|' + std::string(op.width, ' ') + '|';
+
+    blankCanvasArea();
+
+    moveCursor(0, 0);
+
+    std::cout << xLine << std::endl;
+
+    for (int y = 0; y < op.height; y++) {
+        std::cout << yLine << std::endl;
+    }
+
+    std::cout << xLine << std::endl;
+}
+
+void Console::drawPixel(const SetPixel& op) {
+    moveCursor(op.x + 1, op.y + 1);
+
+    std::cout << op.text << std::flush;
+}
+
+void Console::writeLine(const std::string& text) {
+    std::cout << text << std::endl << std::flush;
+}
+void Console::write(const std::string& text) {
+    std::cout << text << std::flush;
+}
+
+void Console::writeAt(const std::string& text, const int x, const int y) {
+    moveCursor(x, y);
+    write(text);
+}
+
+void Console::writeLineAt(const std::string& text, const int x, const int y) {
+    moveCursor(x, y);
+    writeLine(text);
+}
+
+void Console::blankCanvasArea() {
+    moveCursor(0, 0);
+
+    const auto blank = std::string(Canvas::MAX_WIDTH + 2, ' ');
+
+    for (int i = 0; i <= Canvas::MAX_HEIGHT; i++) {
+        writeAt(blank, 0, i);
+    }
+}
+
+void Console::clearScreen() {
+    std::cout << "\033[2J\033[H" << std::flush;
+}
+
+void Console::moveCursor(const int x, const int y) {
+    std::cout << "\033[" << y << ";" << x << "H" << std::flush;
+}

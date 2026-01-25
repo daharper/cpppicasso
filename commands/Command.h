@@ -2,8 +2,8 @@
 #define CPPPICASSO_COMMAND_H
 
 #include <string>
-#include <vector>
-#include "../Graphics/Canvas.h"
+#include "CommandObject.h"
+#include "../Core/Canvas.h"
 
 class Command {
 public:
@@ -12,7 +12,7 @@ public:
     [[nodiscard]] virtual std::string getName() const = 0;
     [[nodiscard]] virtual std::string getDescription() const = 0;
 
-    virtual void execute(Canvas& canvas, const std::vector<std::string>& params) = 0;
+    virtual Operation& execute(Canvas& canvas, const CommandObject& command) = 0;
 };
 
 

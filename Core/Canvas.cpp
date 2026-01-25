@@ -1,20 +1,34 @@
 #include "Canvas.h"
 
+std::string Canvas::DEFAULT_COLOR = "white";
+std::string Canvas::DEFAULT_BG_COLOR = "black";
+
 Canvas::Canvas() {
     m_width = 0;
     m_height = 0;
     m_color = Palette::getForeground("white");
     m_bgColor = Palette::getBackground("black");
     m_pen = DEFAULT_PEN;
-    m_bgPen = DEFAULT_BG_PEN;
 }
 
 #pragma region Graphics
 
-void Canvas::create(const int width, const int height, const std::string& color, const std::string& bgColor) {
+Operation& Canvas::create(const std::string& command, const int width, const int height, const std::string& color, const std::string& bgColor) {
+    addOperation(command);
+
     setCanvas(width, height);
     setColor(color);
     setBgColor(bgColor);
+
+    return m_operations.back();
+}
+
+Operation& Canvas::plot(const std::string& command, const int x, const int y, const char pen) {
+    addOperation(command);
+
+    setPixel(x, y, pen);
+
+    return m_operations.back();
 }
 
 #pragma endregion
@@ -42,28 +56,24 @@ void Canvas::setPixel(const int x, const int y, const char pen) {
     verifyPixel(x, y);
     const std::string p = { pen == 0 ? m_pen : pen };
     const auto text = Palette::format(m_color, m_bgColor, p);
-    addOperationStep(SetPixel{x, y});
+    addOperationStep(SetPixel{x, y, text});
 }
 
 void Canvas::setColor(const std::string& color) {
     m_color = Palette::getForeground(color);
-    addOperationStep(SetColor{m_color});
+    //addOperationStep(SetColor{m_color});
 }
 
 void Canvas::setBgColor(const std::string& color) {
     m_bgColor = Palette::getBackground(color);
-    addOperationStep(SetBgColor({m_bgColor}));
+    //addOperationStep(SetBgColor({m_bgColor}));
 }
 
 void Canvas::setPen(const char pen) {
     m_pen = pen;
-    addOperationStep(SetPen{m_pen});
+    //addOperationStep(SetPen{m_pen});
 }
 
-void Canvas::setBgPen(const char pen) {
-    m_bgPen = pen;
-    addOperationStep(SetBgPen{m_bgPen});
-}
 
 #pragma endregion
 

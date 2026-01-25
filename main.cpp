@@ -1,42 +1,52 @@
 #include <iostream>
+#include <ranges>
 #include <string>
 #include <sstream>
-#include "Graphics/Canvas.h"
+#include "Core/Canvas.h"
 #include "commands/CommandInputParser.h"
 #include "commands/CommandObject.h"
 #include "commands/CommandManager.h"
-#include "Graphics/Renderer.h"
+#include "Core/Console.h"
 
 int main() {
     Canvas canvas;
 
-    std::string input;
+    Console::clearScreen();
+
+    int y = 0;
+
+    for (const auto &command: CommandManager::getInstance() | std::views::values) {
+        Console::writeAt(" - " + command->getDescription(), Canvas::MAX_WIDTH + 4, ++y);
+    }
+
+    std::string text;
 
     while (true) {
-        std::cout << "?" << " " << std::flush;
-        std::getline(std::cin, input);
+        Console::writeAt("                                                     ", 0, Canvas::MAX_HEIGHT + 4);
+        Console::writeAt("? ", 0, Canvas::MAX_HEIGHT + 4);
 
-        input = String::trim(input);
+        std::getline(std::cin, text);
 
-        if (input == "Q" || input == "q") break;
+        text = String::trim(text);
 
-        const auto operation = CommandInputParser::parse(input);
+        if (text == "Q" || text == "q") break;
 
-        if (operation == std::nullopt) {
-            std::cout << "Unknown command" << std::endl;
-            continue;
-        }
+        const auto getInput = CommandInputParser::parse(text);
+        if (getInput == std::nullopt) continue;
 
         auto& manager = CommandManager::getInstance();
 
-        if (auto result = manager.execute(canvas, operation.value())) {
-            Renderer::execute(canvas);
-        } else {
-            std::cout <<  result.error() << std::endl;
+        try {
+            auto operation = manager.execute(canvas, getInput.value());
+
+            Console::execute(operation);
+            //   Console::execute(canvas);
+        } catch (const std::invalid_argument& e) {
+            // ignore for now...
         }
     }
 
-    std::cout << std::endl << "Thanks for playing!" << std::endl;
+    Console::writeLine("Thanks for playing!");
 
     return 0;
 }

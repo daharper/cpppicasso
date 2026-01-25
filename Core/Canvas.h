@@ -10,19 +10,11 @@
 #include "Palette.h"
 
 // Define specific instructions
-struct SetPen { char pen; };
-struct SetBgPen { char pen; };
-struct SetColor { int color; };
-struct SetBgColor { int color; };
 struct SetPixel { int x; int y; const std::string text; };
 struct SetCanvas { int width; int height; };
 
 // A 'Step' is any one of these instructions
 using Step = std::variant<
-    SetPen,
-    SetBgPen,
-    SetColor,
-    SetBgColor,
     SetPixel,
     SetCanvas>;
 
@@ -43,17 +35,12 @@ public:
     Canvas();
 
     /**
-     * @brief Adds a command to the canvas history.
-     * @param text The command to add.
-     */
-    void addOperation(const std::string& text);
-
-    /**
      * @brief Undoes the last command executed on the canvas.
      */
     void undoOperation();
 
-    void create(int width, int height, const std::string& color = "white", const std::string& bgColor = "black");
+    Operation& create(const std::string& command, int width, int height, const std::string& color = "white", const std::string& bgColor = "black");
+    Operation& plot(const std::string& command, int x, int y, char pen);
 
     /**
      * @brief Returns an iterator to the beginning of the command history.
@@ -69,11 +56,24 @@ public:
     [[nodiscard]] auto end() const { return m_operations.end(); }
     [[nodiscard]] auto cend() const { return m_operations.cend(); }
 
+    [[nodiscard]] char getPen() const { return m_pen; }
+    [[nodiscard]] int getWidth() const { return m_width; }
+    [[nodiscard]] int getHeight() const { return m_height; }
+
+    static std::string DEFAULT_COLOR;
+    static std::string DEFAULT_BG_COLOR;
+    static constexpr int MIN_WIDTH = 4;
+    static constexpr int MAX_WIDTH = 20;
+    static constexpr int MIN_HEIGHT = 4;
+    static constexpr int MAX_HEIGHT = 20;
+    static constexpr char DEFAULT_PEN = '*';
+
 private:
+    void addOperation(const std::string& text);
+
     // operations
     void setCanvas(int canvasWidth, int canvasHeight);
     void setPen(char pen);
-    void setBgPen(char pen);
     void setColor(const std::string& color);
     void setBgColor(const std::string& color);
     void setPixel(int x, int y, char pen = 0);
@@ -91,16 +91,8 @@ private:
     int m_color;
     int m_bgColor;
     char m_pen;
-    char m_bgPen;
 
     std::vector<Operation> m_operations;
-
-    static constexpr int MIN_WIDTH = 4;
-    static constexpr int MAX_WIDTH = 40;
-    static constexpr int MIN_HEIGHT = 4;
-    static constexpr int MAX_HEIGHT = 40;
-    static constexpr char DEFAULT_PEN = '*';
-    static constexpr char DEFAULT_BG_PEN = ' ';
 };
 
 #endif //CPPPICASSO_CANVAS_H

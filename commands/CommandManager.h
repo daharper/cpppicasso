@@ -1,7 +1,6 @@
 #ifndef CPPPICASSO_COMMAND_MANAGER_H
 #define CPPPICASSO_COMMAND_MANAGER_H
 
-#include <expected>
 #include <map>
 #include <memory>
 
@@ -19,7 +18,21 @@ public:
     CommandManager(const CommandManager&) = delete;
     CommandManager& operator=(const CommandManager&) = delete;
 
-    std::expected<void, std::string> execute(Canvas& canvas, const CommandObject& command);
+    Operation& execute(Canvas& canvas, const CommandObject& command);
+
+    /**
+     * @brief Returns an iterator to the beginning of the command history.
+     */
+    [[nodiscard]] auto begin() { return commands.begin(); }
+    [[nodiscard]] auto begin() const { return commands.begin(); }
+    [[nodiscard]] auto cbegin() const { return commands.cbegin(); }
+
+    /**
+     * @brief Returns an iterator to the end of the command history.
+     */
+    [[nodiscard]] auto end() { return commands.end(); }
+    [[nodiscard]] auto end() const { return commands.end(); }
+    [[nodiscard]] auto cend() const { return commands.cend(); }
 
 private:
     CommandManager();
