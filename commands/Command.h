@@ -5,9 +5,9 @@
 #include <vector>
 #include "../Graphics/Canvas.h"
 
-class UserCommand {
+class Command {
 public:
-    virtual ~UserCommand() = default;
+    virtual ~Command() = default;
 
     [[nodiscard]] virtual std::string getName() const = 0;
     [[nodiscard]] virtual std::string getDescription() const = 0;

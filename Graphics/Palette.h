@@ -18,20 +18,30 @@ public:
         return fgColors.contains(color);
     }
 
-    static void validate(const std::string& color) {
+    static void validateForeground(const std::string& color) {
         if (!fgColors.contains(color)) {
             throw std::invalid_argument("Unknown color: " + color);
         }
     }
 
-    static std::optional<int> getForeground(const std::string& name) {
-        const auto it = fgColors.find(name);
-        return it != fgColors.end() ? std::optional(it->second) : std::nullopt;
+    static void validateBackground(const std::string& color) {
+        if (!bgColors.contains(color)) {
+            throw std::invalid_argument("Unknown color: " + color);
+        }
     }
 
-    static std::optional<int> getBackground(const std::string& name) {
-        const auto it = bgColors.find(name);
-        return it != bgColors.end() ? std::optional(it->second) : std::nullopt;
+    static int getForeground(const std::string& name) {
+        validateForeground(name);
+        return fgColors.at(name);
+    }
+
+    static int getBackground(const std::string& name) {
+        validateBackground(name);
+        return bgColors.at(name);
+    }
+
+    static std::string format(const int fgColor, const int bgColor, const std::string& text) {
+        return "\033[" + std::to_string(bgColor) + "m" + "\033[" + std::to_string(fgColor) + "m" + text + "\033[0m";
     }
 
 private:

@@ -7,13 +7,15 @@ add_executable(cpppicasso main.cpp
         Graphics/Canvas.h
         Graphics/Palette.h
         Utils.h
-        commands/UserCommand.h
-        commands/UserCommandManager.cpp
-        commands/UserCommandManager.h
-        commands/CreateCanvasUserCommand.cpp
-        commands/CreateCanvasUserCommand.h
+        commands/Command.h
+        commands/CommandManager.cpp
+        commands/CommandManager.h
+        commands/CreateCanvasCommand.cpp
+        commands/CreateCanvasCommand.h
         commands/CommandObject.h
         commands/CommandInputParser.cpp
         commands/CommandInputParser.h
         Graphics/Canvas.cpp
+        Graphics/Renderer.cpp
+        Graphics/Renderer.h
 )

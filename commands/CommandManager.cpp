@@ -1,25 +1,25 @@
-#include "UserCommandManager.h"
+#include "CommandManager.h"
 
-#include "CreateCanvasUserCommand.h"
+#include "CreateCanvasCommand.h"
 
-UserCommandManager::UserCommandManager() {
-    add<CreateCanvasUserCommand>();
+CommandManager::CommandManager() {
+    add<CreateCanvasCommand>();
 }
 
-std::expected<void, std::string> UserCommandManager::execute(Canvas& canvas, const CommandObject& command) {
+std::expected<void, std::string> CommandManager::execute(Canvas& canvas, const CommandObject& command) {
     const auto it = commands.find(command.name);
 
     if (it == commands.end()) {
         return std::unexpected("Unknown command");
     }
 
-    canvas.addCommand(command.text);
+    canvas.addOperation(command.text);
 
     try {
         it->second->execute(canvas, command.params);
         return {};
     } catch (const std::exception& e) {
-        canvas.undo();
+        canvas.undoOperation();
         return std::unexpected(e.what());
     }
 }

@@ -6,33 +6,33 @@
 #include <memory>
 
 #include "../Utils.h"
-#include "UserCommand.h"
+#include "Command.h"
 #include "CommandObject.h"
 
-class UserCommandManager {
+class CommandManager {
 public:
-    static UserCommandManager& getInstance() {
-        static UserCommandManager instance;
+    static CommandManager& getInstance() {
+        static CommandManager instance;
         return instance;
     }
 
-    UserCommandManager(const UserCommandManager&) = delete;
-    UserCommandManager& operator=(const UserCommandManager&) = delete;
+    CommandManager(const CommandManager&) = delete;
+    CommandManager& operator=(const CommandManager&) = delete;
 
     std::expected<void, std::string> execute(Canvas& canvas, const CommandObject& command);
 
 private:
-    UserCommandManager();
-    ~UserCommandManager() = default;
+    CommandManager();
+    ~CommandManager() = default;
 
-    template<std::derived_from<UserCommand> T>
+    template<std::derived_from<Command> T>
     void add() {
         auto command = std::make_unique<T>();
         std::string name = command->getName();
         commands.emplace(std::move(name), std::move(command));
     }
 
-    std::map<std::string, std::unique_ptr<UserCommand>, CaseInsensitiveLess> commands;
+    std::map<std::string, std::unique_ptr<Command>, CaseInsensitiveLess> commands;
 };
 
 #endif //CPPPICASSO_COMMAND_MANAGER_H

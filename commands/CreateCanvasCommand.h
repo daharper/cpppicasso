@@ -1,9 +1,9 @@
 #ifndef CPPPICASSO_CREATE_CANVAS_COMMAND_H
 #define CPPPICASSO_CREATE_CANVAS_COMMAND_H
 
-#include "UserCommand.h"
+#include "Command.h"
 
-class CreateCanvasUserCommand : public UserCommand{
+class CreateCanvasCommand : public Command{
 public:
     [[nodiscard]] std::string getName() const override;
     [[nodiscard]] std::string getDescription() const override;

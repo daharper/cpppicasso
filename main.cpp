@@ -4,7 +4,8 @@
 #include "Graphics/Canvas.h"
 #include "commands/CommandInputParser.h"
 #include "commands/CommandObject.h"
-#include "commands/UserCommandManager.h"
+#include "commands/CommandManager.h"
+#include "Graphics/Renderer.h"
 
 int main() {
     Canvas canvas;
@@ -19,23 +20,19 @@ int main() {
 
         if (input == "Q" || input == "q") break;
 
-        const auto command = CommandInputParser::parse(input);
+        const auto operation = CommandInputParser::parse(input);
 
-        if (command == std::nullopt) {
+        if (operation == std::nullopt) {
             std::cout << "Unknown command" << std::endl;
             continue;
         }
 
-        auto& manager = UserCommandManager::getInstance();
+        auto& manager = CommandManager::getInstance();
 
-        if (auto result = manager.execute(canvas, command.value())) {
-            std::cout << "rendering canvas" << std::endl;
+        if (auto result = manager.execute(canvas, operation.value())) {
+            Renderer::execute(canvas);
         } else {
             std::cout <<  result.error() << std::endl;
-        }
-
-        for (const auto&[text, steps] : canvas) {
-            std::cout << text << std::endl;
         }
     }
 

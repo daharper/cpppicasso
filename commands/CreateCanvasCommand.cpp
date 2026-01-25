@@ -1,14 +1,14 @@
-#include "CreateCanvasUserCommand.h"
+#include "CreateCanvasCommand.h"
 
-std::string CreateCanvasUserCommand::getName() const {
+std::string CreateCanvasCommand::getName() const {
     return "C";
 }
 
-std::string CreateCanvasUserCommand::getDescription() const {
+std::string CreateCanvasCommand::getDescription() const {
     return "C 10 4 - Creates a new canvas with a width of 10 and height of 4";
 }
 
-void CreateCanvasUserCommand::execute(Canvas& canvas, const std::vector<std::string>& params) {
+void CreateCanvasCommand::execute(Canvas& canvas, const std::vector<std::string>& params) {
     if (params.size() != 2) {
         throw std::invalid_argument("Invalid number of parameters.");
     }
