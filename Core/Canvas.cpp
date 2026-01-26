@@ -13,6 +13,34 @@ Canvas::Canvas() {
 
 #pragma region Graphics
 
+Operation& Canvas::setColor(const std::string& color) {
+    m_color = Palette::getForeground(color);
+    return NO_OPERATION;
+}
+
+Operation& Canvas::setBgColor(const std::string& color) {
+    m_bgColor = Palette::getBackground(color);
+    return NO_OPERATION;
+}
+
+Operation& Canvas::setPen(const char pen) {
+    m_pen = pen;
+    return NO_OPERATION;
+}
+
+Operation& Canvas::setColors(const std::string& color, const std::string& bgColor) {
+    m_color = Palette::getForeground(color);
+    m_bgColor = Palette::getBackground(bgColor);
+    return NO_OPERATION;
+}
+
+Operation& Canvas::setDefaults(const std::string &color, const std::string &bgColor, const char pen) {
+    m_color = Palette::getForeground(color);
+    m_bgColor = Palette::getBackground(bgColor);
+    m_pen = pen;
+    return NO_OPERATION;
+}
+
 Operation& Canvas::create(const std::string& command, const int width, const int height, const std::string& color, const std::string& bgColor) {
     addOperation(command);
 
@@ -59,22 +87,6 @@ void Canvas::setPixel(const int x, const int y, const char pen) {
     addOperationStep(SetPixel{x, y, text});
 }
 
-void Canvas::setColor(const std::string& color) {
-    m_color = Palette::getForeground(color);
-    //addOperationStep(SetColor{m_color});
-}
-
-void Canvas::setBgColor(const std::string& color) {
-    m_bgColor = Palette::getBackground(color);
-    //addOperationStep(SetBgColor({m_bgColor}));
-}
-
-void Canvas::setPen(const char pen) {
-    m_pen = pen;
-    //addOperationStep(SetPen{m_pen});
-}
-
-
 #pragma endregion
 
 #pragma region Command Management
@@ -120,6 +132,20 @@ void Canvas::verifyPixel(const int x, const int y) const {
 void Canvas::verifyCanvas() const {
     if (m_width == 0 || m_height == 0) {
         throw std::invalid_argument("There is no canvas.");
+    }
+}
+
+void Canvas::verifyForegroundColor(const std::string& color) {
+    Palette::validateForeground(color);
+}
+
+void Canvas::verifyBackgroundColor(const std::string& color) {
+    Palette::validateBackground(color);
+}
+
+void Canvas::verifyCommand(const std::string& command) {
+    if (String::isBlank(command)) {
+        throw std::invalid_argument("Missing command: " + command);
     }
 }
 

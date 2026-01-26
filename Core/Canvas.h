@@ -24,6 +24,8 @@ struct Operation {
     std::vector<Step> steps;
 };
 
+static Operation NO_OPERATION;
+
 /**
  * @brief Represents a 2D canvas for drawing operations.
  *
@@ -39,8 +41,15 @@ public:
      */
     void undoOperation();
 
+    Operation& setPen(char pen);
+    Operation& setColor(const std::string& color);
+    Operation& setBgColor(const std::string& color);
+    Operation& setColors(const std::string& color, const std::string& bgColor);
+    Operation& setDefaults(const std::string& color, const std::string& bgColor, const char pen);
+
     Operation& create(const std::string& command, int width, int height, const std::string& color = "white", const std::string& bgColor = "black");
     Operation& plot(const std::string& command, int x, int y, char pen);
+    //Operation& line(const std::string& command, int x1, int y1, int x2, int y2, char pen);
 
     /**
      * @brief Returns an iterator to the beginning of the command history.
@@ -60,8 +69,14 @@ public:
     [[nodiscard]] int getWidth() const { return m_width; }
     [[nodiscard]] int getHeight() const { return m_height; }
 
+    static void verifyForegroundColor(const std::string &color) ;
+    static void verifyBackgroundColor(const std::string &color);
+
+    static void verifyCommand(const std::string &command);
+
     static std::string DEFAULT_COLOR;
     static std::string DEFAULT_BG_COLOR;
+
     static constexpr int MIN_WIDTH = 4;
     static constexpr int MAX_WIDTH = 20;
     static constexpr int MIN_HEIGHT = 4;
@@ -73,9 +88,6 @@ private:
 
     // operations
     void setCanvas(int canvasWidth, int canvasHeight);
-    void setPen(char pen);
-    void setColor(const std::string& color);
-    void setBgColor(const std::string& color);
     void setPixel(int x, int y, char pen = 0);
 
     // internal command management

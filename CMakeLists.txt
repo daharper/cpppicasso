@@ -10,14 +10,12 @@ add_executable(cpppicasso main.cpp
         commands/Command.h
         commands/CommandManager.cpp
         commands/CommandManager.h
-        commands/CreateCanvasCommand.cpp
-        commands/CreateCanvasCommand.h
+        UserCommands/CreateCanvasCommand.h
         commands/CommandObject.h
         commands/CommandInputParser.cpp
         commands/CommandInputParser.h
         Core/Canvas.cpp
         Core/Console.cpp
         Core/Console.h
-        commands/PlotCommand.cpp
-        commands/PlotCommand.h
+        UserCommands/PlotCommand.h
 )

@@ -28,18 +28,26 @@ struct CaseInsensitiveLess {
  */
 class String {
 public:
+    static constexpr std::string WHITESPACE = " \n\r\t\f\v";
+
     /**
      * @brief Removes leading and trailing whitespace from a string.
      */
     static std::string trim(const std::string& s) {
-        const std::string WHITESPACE = " \n\r\t\f\v";
-
         const size_t start = s.find_first_not_of(WHITESPACE);
         if (start == std::string::npos) return "";
 
         const size_t end = s.find_last_not_of(WHITESPACE);
 
         return s.substr(start, end - start + 1);
+    }
+
+    /**
+     * @brief determines whether the string is blank - empty or only whitespace characters.
+     * @return Returns true if the string is blank.
+     */
+    static bool isBlank(const std::string& s) {
+        return s.empty() || s.find_first_not_of(WHITESPACE) == std::string::npos;
     }
 };
 

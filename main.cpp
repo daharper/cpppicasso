@@ -37,10 +37,10 @@ int main() {
         auto& manager = CommandManager::getInstance();
 
         try {
-            auto operation = manager.execute(canvas, getInput.value());
-
-            Console::execute(operation);
-            //   Console::execute(canvas);
+            if (auto operation = manager.execute(canvas, getInput.value()); !operation.text.empty()) {
+                Console::execute(operation);
+                //   Console::execute(canvas);
+            }
         } catch (const std::invalid_argument& e) {
             // ignore for now...
         }
