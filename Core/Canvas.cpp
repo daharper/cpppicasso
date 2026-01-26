@@ -13,32 +13,15 @@ Canvas::Canvas() {
 
 #pragma region Graphics
 
-Operation& Canvas::setColor(const std::string& color) {
-    m_color = Palette::getForeground(color);
-    return NO_OPERATION;
-}
-
-Operation& Canvas::setBgColor(const std::string& color) {
-    m_bgColor = Palette::getBackground(color);
-    return NO_OPERATION;
-}
-
 Operation& Canvas::setPen(const char pen) {
     m_pen = pen;
-    return NO_OPERATION;
+    return NOP;
 }
 
 Operation& Canvas::setColors(const std::string& color, const std::string& bgColor) {
     m_color = Palette::getForeground(color);
     m_bgColor = Palette::getBackground(bgColor);
-    return NO_OPERATION;
-}
-
-Operation& Canvas::setDefaults(const std::string &color, const std::string &bgColor, const char pen) {
-    m_color = Palette::getForeground(color);
-    m_bgColor = Palette::getBackground(bgColor);
-    m_pen = pen;
-    return NO_OPERATION;
+    return NOP;
 }
 
 Operation& Canvas::create(const std::string& command, const int width, const int height, const std::string& color, const std::string& bgColor) {
@@ -57,6 +40,31 @@ Operation& Canvas::plot(const std::string& command, const int x, const int y, co
     setPixel(x, y, pen);
 
     return m_operations.back();
+}
+
+Operation& Canvas::undo(){
+    // nothing recorded, nothing to undo
+    if (m_operations.empty()) {
+        return NOP;
+    }
+
+    // index of the last operation
+    const auto i = m_operations.size() - 1;
+
+    // no steps mean this operation is a NOP: discard it
+    if (!m_operations[i].hasSteps()) {
+        m_operations.pop_back();
+        return NOP;
+    }
+
+    // can't undo the initial canvas setup
+    if (std::holds_alternative<SetCanvas>(m_operations[i].steps.front())) {
+        return NOP;
+    }
+
+    // undo the last real operation
+    m_operations.pop_back();
+    return UNDO;
 }
 
 #pragma endregion
@@ -87,6 +95,14 @@ void Canvas::setPixel(const int x, const int y, const char pen) {
     addOperationStep(SetPixel{x, y, text});
 }
 
+void Canvas::setColor(const std::string& color) {
+    m_color = Palette::getForeground(color);
+}
+
+void Canvas::setBgColor(const std::string& color) {
+    m_bgColor = Palette::getBackground(color);
+}
+
 #pragma endregion
 
 #pragma region Command Management
@@ -105,10 +121,6 @@ void Canvas::addOperationStep(const Step& step) {
     }
 
     m_operations.back().steps.push_back(step);
-}
-
-void Canvas::undoOperation(){
-    if (!m_operations.empty()) m_operations.pop_back();
 }
 
 void Canvas::removeOperations() {

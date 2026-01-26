@@ -27,23 +27,21 @@ public:
             throw std::invalid_argument("Invalid number of parameters.");
         }
 
-        int width, height = 0;
-        char pen = canvas.getPen();
-
         try {
-            width = std::stoi(command.params[0]);
-            height = std::stoi(command.params[1]);
+            char pen = canvas.getPen();
+
+            const int width = std::stoi(command.params[0]);
+            const int height = std::stoi(command.params[1]);
 
             if (command.params.size() > 2) {
                 pen = command.params[2][0];
             }
+
+            return canvas.plot(command.text, width, height, pen);
         } catch (const std::invalid_argument& e) {
             throw std::invalid_argument("Invalid canvas dimensions.");
         }
-
-        return canvas.plot(command.text, width, height, pen);
     }
 };
-
 
 #endif //CPPPICASSO_PLOT_COMMAND_H

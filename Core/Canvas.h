@@ -20,11 +20,18 @@ using Step = std::variant<
 
 // A 'Command' is a collection of steps (e.g., "Draw Rectangle" = many DrawPixels)
 struct Operation {
-    std::string text; // e.g., "RECT 1 1 5 5"
+    std::string text;
     std::vector<Step> steps;
+
+    bool operator==(const Operation& other) const {
+        return String::isSame(text, other.text);
+    }
+
+    [[nodiscard]] bool hasSteps() const noexcept { return !steps.empty(); }
 };
 
-static Operation NO_OPERATION;
+static Operation NOP { "nop" };
+static Operation UNDO { "undo" };
 
 /**
  * @brief Represents a 2D canvas for drawing operations.
@@ -39,14 +46,10 @@ public:
     /**
      * @brief Undoes the last command executed on the canvas.
      */
-    void undoOperation();
+    Operation& undo();
 
     Operation& setPen(char pen);
-    Operation& setColor(const std::string& color);
-    Operation& setBgColor(const std::string& color);
     Operation& setColors(const std::string& color, const std::string& bgColor);
-    Operation& setDefaults(const std::string& color, const std::string& bgColor, const char pen);
-
     Operation& create(const std::string& command, int width, int height, const std::string& color = "white", const std::string& bgColor = "black");
     Operation& plot(const std::string& command, int x, int y, char pen);
     //Operation& line(const std::string& command, int x1, int y1, int x2, int y2, char pen);
@@ -89,6 +92,8 @@ private:
     // operations
     void setCanvas(int canvasWidth, int canvasHeight);
     void setPixel(int x, int y, char pen = 0);
+    void setColor(const std::string& color);
+    void setBgColor(const std::string& color);
 
     // internal command management
     void addOperationStep(const Step& step);

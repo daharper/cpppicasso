@@ -25,9 +25,14 @@ int main() {
         auto& manager = CommandManager::getInstance();
 
         try {
-            if (auto operation = manager.execute(canvas, getInput.value()); !operation.text.empty()) {
+            auto operation = manager.execute(canvas, getInput.value());
+
+            if (operation == NOP) continue;
+
+            if (operation == UNDO) {
+                Console::execute(canvas);
+            } else {
                 Console::execute(operation);
-                //   Console::execute(canvas);
             }
         } catch (const std::invalid_argument& e) {
             // ignore for now...

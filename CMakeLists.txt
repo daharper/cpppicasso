@@ -19,4 +19,6 @@ add_executable(cpppicasso main.cpp
         Core/Console.h
         commands/PlotCommand.h
         Core/Help.h
+        commands/UndoCommand.h
+        commands/SetPenCommand.h
 )

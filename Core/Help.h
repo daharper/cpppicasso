@@ -40,7 +40,6 @@ public:
         Console::writeAt("Game Commands:", Canvas::MAX_WIDTH + 4, ++y);
         ++y;
         Console::writeAt("- Q to quit", Canvas::MAX_WIDTH + 4, ++y);
-        Console::writeAt("- U to undo", Canvas::MAX_WIDTH + 4, ++y);
     }
 };
 

@@ -26,14 +26,12 @@ public:
             throw std::invalid_argument("Invalid number of parameters.");
         }
 
-        int width, height = 0;
-
-        std::string color = Canvas::DEFAULT_COLOR;
-        std::string bgColor = Canvas::DEFAULT_BG_COLOR;
-
         try {
-            width = std::stoi(command.params[0]);
-            height = std::stoi(command.params[1]);
+            std::string color = Canvas::DEFAULT_COLOR;
+            std::string bgColor = Canvas::DEFAULT_BG_COLOR;
+
+            const int width = std::stoi(command.params[0]);
+            const int height = std::stoi(command.params[1]);
 
             if (command.params.size() > 2) {
                 color = command.params[2];
@@ -42,11 +40,11 @@ public:
                     bgColor = command.params[3];
                 }
             }
+
+            return canvas.create(command.text, width, height, color, bgColor);
         } catch (const std::invalid_argument& e) {
             throw std::invalid_argument("Invalid canvas dimensions.");
         }
-
-        return canvas.create(command.text, width, height, color, bgColor);
     }
 };
 

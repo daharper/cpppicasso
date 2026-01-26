@@ -2,10 +2,14 @@
 
 #include "../commands/CreateCanvasCommand.h"
 #include "../commands/PlotCommand.h"
+#include "../commands/UndoCommand.h"
+#include "../commands/SetPenCommand.h"
 
 CommandManager::CommandManager() {
     add<CreateCanvasCommand>();
     add<PlotCommand>();
+    add<UndoCommand>();
+    add<SetPenCommand>();
 }
 
 Operation& CommandManager::execute(Canvas& canvas, const CommandObject& command) {
