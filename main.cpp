@@ -3,9 +3,9 @@
 #include <string>
 #include <sstream>
 #include "Core/Canvas.h"
-#include "commands/CommandInputParser.h"
-#include "commands/CommandObject.h"
-#include "commands/CommandManager.h"
+#include "command/CommandInputParser.h"
+#include "command/CommandObject.h"
+#include "command/CommandManager.h"
 #include "Core/Console.h"
 
 int main() {

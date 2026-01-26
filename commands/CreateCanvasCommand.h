@@ -1,7 +1,7 @@
 #ifndef CPPPICASSO_CREATE_CANVAS_COMMAND_H
 #define CPPPICASSO_CREATE_CANVAS_COMMAND_H
 
-#include "../commands/Command.h"
+#include "../command/Command.h"
 
 class CreateCanvasCommand : public Command{
 public:

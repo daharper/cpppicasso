@@ -2,7 +2,7 @@
 #define CPPPICASSO_PLOT_COMMAND_H
 
 #include <string>
-#include "../commands/Command.h"
+#include "../command/Command.h"
 
 class PlotCommand : public Command {
 public:

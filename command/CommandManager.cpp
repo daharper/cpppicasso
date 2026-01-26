@@ -1,7 +1,7 @@
 #include "CommandManager.h"
 
-#include "../UserCommands/CreateCanvasCommand.h"
-#include "../UserCommands/PlotCommand.h"
+#include "../commands/CreateCanvasCommand.h"
+#include "../commands/PlotCommand.h"
 
 CommandManager::CommandManager() {
     add<CreateCanvasCommand>();
