@@ -10,7 +10,15 @@ public:
     }
 
     [[nodiscard]] std::string getDescription() const override {
-        return "create a canvas    - C width height [color backcolor] - C 10 4 white black";
+        return "create a canvas";
+    }
+
+    [[nodiscard]] std::string getExample() const override {
+        return "C 10 4 white black";
+    }
+
+    [[nodiscard]] std::string getFormat() const override {
+        return "C width height [color backcolor]";
     }
 
     Operation& execute(Canvas& canvas, const CommandObject& command) override  {

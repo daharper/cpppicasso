@@ -18,4 +18,5 @@ add_executable(cpppicasso main.cpp
         Core/Console.cpp
         Core/Console.h
         commands/PlotCommand.h
+        Core/Help.h
 )

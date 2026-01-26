@@ -11,6 +11,8 @@ public:
 
     [[nodiscard]] virtual std::string getName() const = 0;
     [[nodiscard]] virtual std::string getDescription() const = 0;
+    [[nodiscard]] virtual std::string getFormat() const = 0;
+    [[nodiscard]] virtual std::string getExample() const = 0;
 
     virtual Operation& execute(Canvas& canvas, const CommandObject& command) = 0;
 };

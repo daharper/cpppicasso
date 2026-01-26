@@ -5,6 +5,7 @@
 
 class Console {
 public:
+    static std::string prompt();
     static void clearScreen();
     static void blankCanvasArea();
 

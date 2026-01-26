@@ -78,7 +78,7 @@ public:
     static std::string DEFAULT_BG_COLOR;
 
     static constexpr int MIN_WIDTH = 4;
-    static constexpr int MAX_WIDTH = 20;
+    static constexpr int MAX_WIDTH = 40;
     static constexpr int MIN_HEIGHT = 4;
     static constexpr int MAX_HEIGHT = 20;
     static constexpr char DEFAULT_PEN = '*';

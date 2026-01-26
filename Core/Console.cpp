@@ -34,7 +34,7 @@ void Console::drawBorder(const SetCanvas& op) {
 
     blankCanvasArea();
 
-    moveCursor(0, 0);
+    moveCursor(0, 3);
 
     std::cout << xLine << std::endl;
 
@@ -46,7 +46,7 @@ void Console::drawBorder(const SetCanvas& op) {
 }
 
 void Console::drawPixel(const SetPixel& op) {
-    moveCursor(op.x + 1, op.y + 1);
+    moveCursor(op.x + 1, op.y + 3);
 
     std::cout << op.text << std::flush;
 }
@@ -69,12 +69,12 @@ void Console::writeLineAt(const std::string& text, const int x, const int y) {
 }
 
 void Console::blankCanvasArea() {
-    moveCursor(0, 0);
-
     const auto blank = std::string(Canvas::MAX_WIDTH + 2, ' ');
 
+    int y{2};
+
     for (int i = 0; i <= Canvas::MAX_HEIGHT; i++) {
-        writeAt(blank, 0, i);
+        writeAt(blank, 0, ++y);
     }
 }
 
@@ -84,4 +84,18 @@ void Console::clearScreen() {
 
 void Console::moveCursor(const int x, const int y) {
     std::cout << "\033[" << y << ";" << x << "H" << std::flush;
+}
+
+std::string Console::prompt() {
+    std::string text;
+
+    while (String::isBlank(text)) {
+        writeAt("                                                     ", 0, Canvas::MAX_HEIGHT + 7);
+        writeAt("? ", 0, Canvas::MAX_HEIGHT + 7);
+
+        std::getline(std::cin, text);
+        text = String::trim(text);
+    }
+
+    return text;
 }

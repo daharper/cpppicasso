@@ -11,7 +11,15 @@ public:
     }
 
     [[nodiscard]] std::string getDescription() const override {
-        return "plot on the canvas - P x y [pen]                      - P 4 4 @";
+        return "plot on the canvas";
+    }
+
+    [[nodiscard]] std::string getExample() const override {
+        return "P 4 4 @";
+    }
+
+    [[nodiscard]] std::string getFormat() const override {
+        return "P x y [pen]";
     }
 
     Operation& execute(Canvas& canvas, const CommandObject& command) override {
