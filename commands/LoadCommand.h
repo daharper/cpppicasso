@@ -1,0 +1,66 @@
+//
+// Created by david on 26/1/2026.
+//
+
+#ifndef CPPPICASSO_LOAD_COMMAND_H
+#define CPPPICASSO_LOAD_COMMAND_H
+
+#include <fstream>
+#include <iostream>
+#include <string>
+#include "../command/Command.h"
+#include "../command/CommandInputParser.h"
+#include "../command/CommandManager.h"
+
+class LoadCommand : public Command {
+public:
+    [[nodiscard]] std::string getName() const override {
+        return "O";
+    }
+
+    [[nodiscard]] std::string getDescription() const override {
+        return "open file";
+    }
+
+    [[nodiscard]] std::string getExample() const override {
+        return "O hello.txt";
+    }
+
+    [[nodiscard]] std::string getFormat() const override {
+        return "O file";
+    }
+
+    Operation& execute(Canvas& canvas, const CommandObject& command) override {
+        if (command.params.size() != 1) {
+            throw std::invalid_argument("Invalid number of parameters.");
+        }
+
+        auto& path = command.params[0];
+
+        try {
+            std::ifstream in(path);
+            if (!in) throw std::invalid_argument("Cannot open file.");
+
+            canvas.removeOperations();
+
+            auto& manager = CommandManager::getInstance();
+
+            std::string text;
+
+            while (std::getline(in, text)) {
+                const auto getInput = CommandInputParser::parse(text);
+
+                if (getInput != std::nullopt) {
+                    const auto& cmd = getInput.value();
+                    const auto& op = manager.execute(canvas, cmd);
+                }
+            }
+
+            return MUTATION;
+        } catch (const std::invalid_argument& e) {
+            throw std::invalid_argument("Error importing file.");
+        }
+    }
+};
+
+#endif //CPPPICASSO_LOAD_COMMAND_H

@@ -3,14 +3,14 @@
 
 #include "../command/Command.h"
 
-class CreateCanvasCommand : public Command{
+class CanvasCommand : public Command{
 public:
     [[nodiscard]] std::string getName() const override {
         return "C";
     }
 
     [[nodiscard]] std::string getDescription() const override {
-        return "create a canvas";
+        return "create canvas";
     }
 
     [[nodiscard]] std::string getExample() const override {

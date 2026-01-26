@@ -35,11 +35,20 @@ Operation& Canvas::create(const std::string& command, const int width, const int
 }
 
 Operation& Canvas::plot(const std::string& command, const int x, const int y, const char pen) {
+    // todo: we should validate before adding operation
     addOperation(command);
 
     setPixel(x, y, pen);
 
     return m_operations.back();
+}
+
+Operation& Canvas::line(const std::string& command, int x1, int y1, int x2, int y2, char pen) {
+    // todo: we should validate before adding operation
+    addOperation(command);
+
+    // todo: implement this command
+    return NOP;
 }
 
 Operation& Canvas::undo(){
@@ -64,7 +73,7 @@ Operation& Canvas::undo(){
 
     // undo the last real operation
     m_operations.pop_back();
-    return UNDO;
+    return MUTATION;
 }
 
 #pragma endregion
@@ -112,7 +121,7 @@ void Canvas::addOperation(const std::string& text) {
         throw std::invalid_argument("Command text cannot be empty.");
     }
 
-    this->m_operations.emplace_back(text, std::vector<Step>());
+    this->m_operations.emplace_back(OpKind::Normal, text, std::vector<Step>());
 }
 
 void Canvas::addOperationStep(const Step& step) {

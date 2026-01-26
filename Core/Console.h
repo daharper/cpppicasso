@@ -16,7 +16,7 @@ public:
     static void writeLineAt(const std::string& text, int x, int y);
 
     static void execute(const Canvas& canvas);
-    static void execute(Operation& operation);
+    static void execute(const Operation &operation);
 
     static void drawBorder(const SetCanvas& op);
     static void drawPixel(const SetPixel& op);

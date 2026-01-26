@@ -1,38 +1,48 @@
-#ifndef CPPPICASSO_UNDO_COMMAND_H
-#define CPPPICASSO_UNDO_COMMAND_H
+#ifndef CPPPICASSO_SAVE_COMMAND_H
+#define CPPPICASSO_SAVE_COMMAND_H
 
+#include <fstream>
 #include <string>
 #include "../command/Command.h"
 
-class UndoCommand : public Command {
+class SaveCommand : public Command {
 public:
     [[nodiscard]] std::string getName() const override {
-        return "U";
+        return "W";
     }
 
     [[nodiscard]] std::string getDescription() const override {
-        return "undo command";
+        return "write to file";
     }
 
     [[nodiscard]] std::string getExample() const override {
-        return "";
+        return "W hello.txt";
     }
 
     [[nodiscard]] std::string getFormat() const override {
-        return "";
+        return "W file";
     }
 
     Operation& execute(Canvas& canvas, const CommandObject& command) override {
-        if (!command.params.empty()) {
+        if (command.params.size() != 1) {
             throw std::invalid_argument("Invalid number of parameters.");
         }
 
+        auto& path = command.params[0];
+
         try {
-            return canvas.undo();
+            std::ofstream out(path);
+            if (!out) throw std::invalid_argument("Cannot open file.");
+
+            for (auto& op: canvas) {
+                out << op.text << "\n";
+            }
+
+            return NOP;
         } catch (const std::invalid_argument& e) {
             throw std::invalid_argument("Invalid canvas dimensions.");
         }
     }
 };
 
-#endif //CPPPICASSO_UNDO_COMMAND_H
+#endif //CPPPICASSO_SAVE_COMMAND_H

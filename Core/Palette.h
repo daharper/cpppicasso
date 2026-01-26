@@ -8,6 +8,8 @@
 #include <string>
 #include <map>
 #include <optional>
+#include <stdexcept>
+
 #include "../Utils.h"
 
 class Palette {

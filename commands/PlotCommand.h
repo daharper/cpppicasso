@@ -11,7 +11,7 @@ public:
     }
 
     [[nodiscard]] std::string getDescription() const override {
-        return "plot on the canvas";
+        return "plot a point";
     }
 
     [[nodiscard]] std::string getExample() const override {

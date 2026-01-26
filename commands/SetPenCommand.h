@@ -11,7 +11,7 @@ public:
     }
 
     [[nodiscard]] std::string getDescription() const override {
-        return "set pen command";
+        return "set pen";
     }
 
     [[nodiscard]] std::string getExample() const override {

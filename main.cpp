@@ -11,34 +11,42 @@ int main() {
     Canvas canvas;
 
     Console::clearScreen();
-    Help::show();
+    const auto showCommand = Help::show();
+
+    auto& manager = CommandManager::getInstance();
 
     while (true) {
-        std::string text = Console::prompt();
+        const auto text = Console::prompt();
+
+        showCommand(text);
 
         if (text == "Q" || text == "q") break;
 
         const auto getInput = CommandInputParser::parse(text);
-
         if (getInput == std::nullopt) continue;
 
-        auto& manager = CommandManager::getInstance();
-
         try {
-            auto operation = manager.execute(canvas, getInput.value());
+            const auto& cmd = getInput.value();
+            const auto& op = manager.execute(canvas, cmd);
 
-            if (operation == NOP) continue;
-
-            if (operation == UNDO) {
-                Console::execute(canvas);
-            } else {
-                Console::execute(operation);
+            switch (op.kind) {
+                case OpKind::Nop:
+                    continue;
+                case OpKind::Mutation:
+                    Console::execute(canvas);
+                    break;
+                default:
+                    Console::execute(op);
+                    break;
             }
-        } catch (const std::invalid_argument& e) {
-            // ignore for now...
+        } catch (const std::exception& e) {
+            auto error = "Synax Error: " + text + " (" + std::string(e.what()) + ")";
+            auto msg = error.size() > 50 ? error.substr(0, 47) + "..." : error;
+            showCommand(msg);
         }
     }
 
+    Console::clearScreen();
     Console::writeLine("Thanks for playing!");
 
     return 0;

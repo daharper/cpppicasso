@@ -12,14 +12,14 @@ static auto visitor = overloads {
     [](const SetPixel& op) { Console::drawPixel(op); }
 };
 
-void Console::execute(Operation& operation) {
+void Console::execute(const Operation& operation) {
     for (auto& step: operation.steps) {
         std::visit(visitor, step);
     }
 }
 
 void Console::execute(const Canvas &canvas) {
-    for (const auto&[operation, steps]: canvas) {
+    for (const auto&[opKind, op, steps]: canvas) {
         for (auto& step: steps) {
             std::visit(visitor, step);
         }

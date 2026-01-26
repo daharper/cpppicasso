@@ -7,7 +7,18 @@
 
 class Help {
 public:
-    static void show() {
+    using ShowLastCommand = void (*)(const std::string&);
+
+    static void showLastCommand(const std::string& command) {
+        Console::writeAt(
+            "                                                                                             ",
+            m_lastCommandX,
+            m_lastCommandY);
+
+        Console::writeAt("> " + command, m_lastCommandX, m_lastCommandY);
+    }
+
+    static ShowLastCommand show() {
         const std::string minX = std::to_string(Canvas::MIN_WIDTH);
         const std::string maxX = std::to_string(Canvas::MAX_WIDTH);
         const std::string minY = std::to_string(Canvas::MIN_HEIGHT);
@@ -40,7 +51,22 @@ public:
         Console::writeAt("Game Commands:", Canvas::MAX_WIDTH + 4, ++y);
         ++y;
         Console::writeAt("- Q to quit", Canvas::MAX_WIDTH + 4, ++y);
+        ++y;
+        Console::writeAt("Last Command:", Canvas::MAX_WIDTH + 4, ++y);
+        ++y;
+        ++y;
+
+        m_lastCommandX = Canvas::MAX_WIDTH + 4;
+        m_lastCommandY = y;
+
+        showLastCommand("");
+
+        return showLastCommand;
     }
+
+private:
+    inline static int m_lastCommandX;
+    inline static int m_lastCommandY;
 };
 
 #endif //CPPPICASSO_HELP_H
