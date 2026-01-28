@@ -11,8 +11,10 @@
 #include "../commands/RectangleCommand.h"
 #include "../commands/TriangleCommand.h"
 #include "../commands/WriteCommand.h"
+#include "../commands/SetColorsCommand.h"
 
 CommandManager::CommandManager() {
+    add<SetColorsCommand>();
     add<FillCommand>();
     add<CanvasCommand>();
     add<LineCommand>();

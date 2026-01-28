@@ -1,10 +1,22 @@
 C 40 13
-W 1 1 David Harper
-W 1 2 C++ Developer
-W 1 3 X10X X57X
-L 1 5 16 5 .
-L 16 1 16 5 :
+A white cyan
+L 1 4 16 4 .
+L 16 1 16 4 :
+L 1 1 1 4 :
+L 1 1 16 1 .
+B 2 2 x
+B 2 2 " "
+A magenta cyan
+W 3 2 David Harper
+W 3 3 Developer
+A white blue
 T 33 1 28 4 36 4 *
+B 32 3 *
+A yellow blue
+D 30 3 *
+D 33 3 *
+D 32 4 *
+A white black
 D 29 5 |
 D 29 6 |
 D 35 5 |
@@ -12,16 +24,23 @@ D 35 6 |
 D 31 5 O
 D 33 5 O
 D 32 6 -
-B 32 3 *
+A white blue
 L 26 7 38 7
 L 31 7 28 9
 L 34 7 36 9
+A white green
 L 25 7 22 4 \
+A white yellow
 L 20 3 22 3 +
 L 21 2 21 4 +
-W 1 7 + Eligible to work
-W 1 8 + Available now
-W 1 9 + Locally based
-L 1 11 40 11 _
-W 3 12 email: david@beyondvelocity.com.au
-W 3 13 blog:  https://beyondvelocity.blog/
+A white black
+W 1 6 + Eligible to work
+W 1 7 + Available now
+W 1 8 + Locally based
+A white cyan
+L 1 11 40 11 .
+B 1 13 x
+B 1 13 " "
+A magenta cyan
+W 2 12 email: david@beyondvelocity.co.uk
+W 2 13 blog:  https://www.beyondvelocity.com/

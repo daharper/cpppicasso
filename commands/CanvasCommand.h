@@ -18,7 +18,7 @@ public:
     }
 
     [[nodiscard]] std::string getFormat() const override {
-        return "C width height [color backcolor]";
+        return "C width height [color bgcolor]";
     }
 
     Operation& execute(Canvas& canvas, const CommandObject& command) override  {

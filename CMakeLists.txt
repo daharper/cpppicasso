@@ -30,4 +30,5 @@ add_executable(cpppicasso main.cpp
         commands/FillCommand.h
         commands/TriangleCommand.h
         commands/WriteCommand.h
+        commands/SetColorsCommand.h
 )
