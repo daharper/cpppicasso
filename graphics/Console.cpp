@@ -115,11 +115,16 @@ std::string Console::prompt() {
     std::string text;
 
     while (String::isBlank(text)) {
-        writeAt("                                                     ", 0, Canvas::MAX_HEIGHT + 7);
-        writeAt("? ", 0, Canvas::MAX_HEIGHT + 7);
+        writeAt("                                                     ", Canvas::MAX_WIDTH + 4, Canvas::MAX_HEIGHT + 9);
+        writeAt("? ", Canvas::MAX_WIDTH + 4, Canvas::MAX_HEIGHT + 9);
 
         std::getline(std::cin, text);
         text = String::trim(text);
+    }
+
+    // shortcut for demos
+    if (text == "1" || text == "2") {
+        text = "o demo" + text + ".txt";
     }
 
     return text;

@@ -11,7 +11,7 @@ public:
     }
 
     [[nodiscard]] std::string getDescription() const override {
-        return "draws a rectangle";
+        return "draw rectangle";
     }
 
     [[nodiscard]] std::string getExample() const override {

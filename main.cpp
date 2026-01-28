@@ -40,7 +40,7 @@ int main() {
                     break;
             }
 
-            Console::dumpPixelBuffer();
+            // Console::dumpPixelBuffer();
 
         } catch (const std::exception& e) {
             auto error = "Synax Error: " + text + " (" + std::string(e.what()) + ")";

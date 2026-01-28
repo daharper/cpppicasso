@@ -15,7 +15,7 @@ public:
             m_lastCommandX,
             m_lastCommandY);
 
-        Console::writeAt("> " + command, m_lastCommandX, m_lastCommandY);
+        Console::writeAt(command, m_lastCommandX, m_lastCommandY);
     }
 
     static ShowLastCommand show() {
@@ -29,34 +29,30 @@ public:
         Console::writeAt("Canvas:", 0, 1);
         Console::writeAt("Canvas Commands:", Canvas::MAX_WIDTH + 4, ++y);
         ++y;
-        Console::writeAt("---------------------------------------------------------------------------------------------", Canvas::MAX_WIDTH + 4, ++y);
-        Console::writeAt("| # |     Description     |              Format                |           Example          |", Canvas::MAX_WIDTH + 4, ++y);
-        Console::writeAt("---------------------------------------------------------------------------------------------", Canvas::MAX_WIDTH + 4, ++y);
+        Console::writeAt("------------------------------------------------------------------------------", Canvas::MAX_WIDTH + 4, ++y);
+        Console::writeAt("| # |   Description    |            Format              |       Example      |", Canvas::MAX_WIDTH + 4, ++y);
+        Console::writeAt("------------------------------------------------------------------------------", Canvas::MAX_WIDTH + 4, ++y);
 
         for (const auto &command: CommandManager::getInstance() | std::views::values) {
             Console::writeAt("| " + command->getName(), Canvas::MAX_WIDTH + 4, ++y);
             Console::writeAt("| " + command->getDescription(), Canvas::MAX_WIDTH + 8, y);
-            Console::writeAt("| " + command->getFormat(), Canvas::MAX_WIDTH + 30, y);
-            Console::writeAt("| " + command->getExample(), Canvas::MAX_WIDTH + 67, y);
-            Console::writeAt("|", Canvas::MAX_WIDTH + 96, y);
+            Console::writeAt("| " + command->getFormat(), Canvas::MAX_WIDTH + 27, y);
+            Console::writeAt("| " + command->getExample(), Canvas::MAX_WIDTH + 60, y);
+            Console::writeAt("|", Canvas::MAX_WIDTH + 81, y);
         }
 
-        Console::writeAt("---------------------------------------------------------------------------------------------", Canvas::MAX_WIDTH + 4, ++y);
+        Console::writeAt("------------------------------------------------------------------------------", Canvas::MAX_WIDTH + 4, ++y);
         ++y;
         Console::writeAt("Constraints:", Canvas::MAX_WIDTH + 4, ++y);
         ++y;
         Console::writeAt("- Canvas: width (" + minX + "-" + maxX + "), height (" + minY + "-" + maxY + ")", Canvas::MAX_WIDTH + 4, ++y);
         Console::writeAt("- Colors: black, red, green, yellow, blue, magenta, cyan, white", Canvas::MAX_WIDTH + 4, ++y);
         ++y;
-        Console::writeAt("Game Commands:", Canvas::MAX_WIDTH + 4, ++y);
-        ++y;
-        Console::writeAt("- Q to quit", Canvas::MAX_WIDTH + 4, ++y);
+        Console::writeAt("Game Commands: 1 or 2 for a demo, Q to quit", Canvas::MAX_WIDTH + 4, ++y);
         ++y;
         Console::writeAt("Last Command:", Canvas::MAX_WIDTH + 4, ++y);
-        ++y;
-        ++y;
 
-        m_lastCommandX = Canvas::MAX_WIDTH + 4;
+        m_lastCommandX = Canvas::MAX_WIDTH + 19;
         m_lastCommandY = y;
 
         showLastCommand("");
