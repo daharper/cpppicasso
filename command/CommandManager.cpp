@@ -1,21 +1,29 @@
 #include "CommandManager.h"
 
 #include "../commands/CanvasCommand.h"
+#include "../commands/FillCommand.h"
 #include "../commands/PlotCommand.h"
 #include "../commands/UndoCommand.h"
 #include "../commands/SetPenCommand.h"
 #include "../commands/SaveCommand.h"
 #include "../commands/LoadCommand.h"
 #include "../commands/LineCommand.h"
+#include "../commands/RectangleCommand.h"
+#include "../commands/TriangleCommand.h"
+#include "../commands/WriteCommand.h"
 
 CommandManager::CommandManager() {
+    add<FillCommand>();
     add<CanvasCommand>();
     add<LineCommand>();
     add<LoadCommand>();
     add<PlotCommand>();
-    add<UndoCommand>();
-    add<SetPenCommand>();
+    add<RectangleCommand>();
     add<SaveCommand>();
+    add<SetPenCommand>();
+    add<TriangleCommand>();
+    add<UndoCommand>();
+    add<WriteCommand>();
 }
 
 Operation& CommandManager::execute(Canvas& canvas, const CommandObject& command) {

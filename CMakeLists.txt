@@ -24,4 +24,10 @@ add_executable(cpppicasso main.cpp
         commands/SaveCommand.h
         commands/LoadCommand.h
         commands/LineCommand.h
+        commands/RectangleCommand.h
+        Core/PixelBuffer.cpp
+        Core/PixelBuffer.h
+        commands/FillCommand.h
+        commands/TriangleCommand.h
+        commands/WriteCommand.h
 )

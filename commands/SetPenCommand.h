@@ -7,7 +7,7 @@
 class SetPenCommand : public Command {
 public:
     [[nodiscard]] std::string getName() const override {
-        return "@";
+        return "P";
     }
 
     [[nodiscard]] std::string getDescription() const override {
@@ -15,11 +15,11 @@ public:
     }
 
     [[nodiscard]] std::string getExample() const override {
-        return "@ *";
+        return "P *";
     }
 
     [[nodiscard]] std::string getFormat() const override {
-        return "@ [pen]";
+        return "P [pen]";
     }
 
     Operation& execute(Canvas& canvas, const CommandObject& command) override {

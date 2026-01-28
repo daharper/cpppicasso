@@ -1,25 +1,29 @@
-#ifndef CPPPICASSO_PLOT_COMMAND_H
-#define CPPPICASSO_PLOT_COMMAND_H
+//
+// Created by david on 27/1/2026.
+//
+
+#ifndef CPPPICASSO_FILL_COMMAND_H
+#define CPPPICASSO_FILL_COMMAND_H
 
 #include <string>
 #include "../command/Command.h"
 
-class PlotCommand : public Command {
+class FillCommand : public Command {
 public:
     [[nodiscard]] std::string getName() const override {
-        return "D";
+        return "B";
     }
 
     [[nodiscard]] std::string getDescription() const override {
-        return "draw a pixel";
+        return "bucket fill";
     }
 
     [[nodiscard]] std::string getExample() const override {
-        return "D 4 4 @";
+        return "B 4 4 @";
     }
 
     [[nodiscard]] std::string getFormat() const override {
-        return "D x y [pen]";
+        return "B x y [pen]";
     }
 
     Operation& execute(Canvas& canvas, const CommandObject& command) override {
@@ -37,11 +41,11 @@ public:
                 pen = command.params[2][0];
             }
 
-            return canvas.plot(command.text, width, height, pen);
+            return canvas.fill(command.text, width, height, pen);
         } catch (const std::invalid_argument& e) {
             throw std::invalid_argument("Invalid canvas dimensions.");
         }
     }
 };
 
-#endif //CPPPICASSO_PLOT_COMMAND_H
+#endif //CPPPICASSO_FILL_COMMAND_H

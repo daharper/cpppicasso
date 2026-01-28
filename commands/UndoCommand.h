@@ -15,11 +15,11 @@ public:
     }
 
     [[nodiscard]] std::string getExample() const override {
-        return "";
+        return "U";
     }
 
     [[nodiscard]] std::string getFormat() const override {
-        return "";
+        return "U";
     }
 
     Operation& execute(Canvas& canvas, const CommandObject& command) override {

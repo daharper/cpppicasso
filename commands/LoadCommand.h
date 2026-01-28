@@ -11,6 +11,7 @@
 #include "../command/Command.h"
 #include "../command/CommandInputParser.h"
 #include "../command/CommandManager.h"
+#include "../Core/Console.h"
 
 class LoadCommand : public Command {
 public:
@@ -37,6 +38,8 @@ public:
 
         auto& path = command.params[0];
 
+        std::string text;
+
         try {
             std::ifstream in(path);
             if (!in) throw std::invalid_argument("Cannot open file.");
@@ -45,20 +48,22 @@ public:
 
             auto& manager = CommandManager::getInstance();
 
-            std::string text;
-
             while (std::getline(in, text)) {
                 const auto getInput = CommandInputParser::parse(text);
 
                 if (getInput != std::nullopt) {
                     const auto& cmd = getInput.value();
                     const auto& op = manager.execute(canvas, cmd);
+
+                    if (op != NOP) {
+                        Console::execute(op);
+                    }
                 }
             }
 
-            return MUTATION;
+            return NOP;
         } catch (const std::invalid_argument& e) {
-            throw std::invalid_argument("Error importing file.");
+            throw std::invalid_argument("Error importing file: " + text);
         }
     }
 };

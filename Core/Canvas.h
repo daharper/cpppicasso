@@ -6,9 +6,10 @@
 #include <variant>
 
 #include "Palette.h"
+#include "PixelBuffer.h"
 
 // Define specific instructions
-struct SetPixel { int x; int y; const std::string text; };
+struct SetPixel { int x; int y; const std::string text; const char pen; };
 struct SetCanvas { int width; int height; };
 
 // A 'Step' is any one of these instructions
@@ -49,12 +50,15 @@ public:
      * @brief Undoes the last command executed on the canvas.
      */
     Operation& undo();
-
     Operation& setPen(char pen);
     Operation& setColors(const std::string& color, const std::string& bgColor);
     Operation& create(const std::string& command, int width, int height, const std::string& color = "white", const std::string& bgColor = "black");
     Operation& plot(const std::string& command, int x, int y, char pen);
     Operation& line(const std::string& command, int x1, int y1, int x2, int y2, char pen);
+    Operation& rectangle(const std::string& command, int x, int y, int width, int height,  char pen);
+    Operation& triangle(const std::string &command, int x1, int y1, int x2, int y2, int x3, int y3, char pen);
+    Operation& write(const std::string& command, int x, int y, const std::string& text);
+    Operation& fill(const std::string& command, int x, int y, char pen);
 
     /**
      * @brief Returns an iterator to the beginning of the command history.
@@ -84,7 +88,7 @@ public:
     static std::string DEFAULT_BG_COLOR;
 
     static constexpr int MIN_WIDTH = 4;
-    static constexpr int MAX_WIDTH = 20;
+    static constexpr int MAX_WIDTH = 40;
     static constexpr int MIN_HEIGHT = 4;
     static constexpr int MAX_HEIGHT = 20;
     static constexpr char DEFAULT_PEN = '*';
@@ -105,6 +109,12 @@ private:
     // validation methods
     void verifyPixel(int x, int y) const;
     void verifyCanvas() const;
+
+    void drawHorizontalLine(int x1, int x2, int y, char pen);
+    void drawVerticalLine(int x, int y1, int y2, char pen);
+    void drawDiagonalLine(int x1, int y1, int x2, int y2, char pen);
+
+    void plotFill(PixelBuffer& buffer, int x, int y, char pen, char targetPen);
 
     int m_width;
     int m_height;

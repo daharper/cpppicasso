@@ -1,5 +1,7 @@
 #include "Canvas.h"
 
+#include "PixelBuffer.h"
+
 std::string Canvas::DEFAULT_COLOR = "white";
 std::string Canvas::DEFAULT_BG_COLOR = "black";
 
@@ -35,7 +37,8 @@ Operation& Canvas::create(const std::string& command, const int width, const int
 }
 
 Operation& Canvas::plot(const std::string& command, const int x, const int y, const char pen) {
-    // todo: we should validate before adding operation
+    verifyPixel(x, y);
+
     addOperation(command);
 
     setPixel(x, y, pen);
@@ -43,12 +46,153 @@ Operation& Canvas::plot(const std::string& command, const int x, const int y, co
     return m_operations.back();
 }
 
-Operation& Canvas::line(const std::string& command, int x1, int y1, int x2, int y2, char pen) {
-    // todo: we should validate before adding operation
+Operation& Canvas::rectangle(const std::string& command, const int x, const int y, const int width, const int height,  const char pen) {
+    const int x2 = x + width - 1;
+    const int y2 = y + height - 1;
+
+    verifyPixel(x, y);
+    verifyPixel(x2, y2);
+
     addOperation(command);
 
-    // todo: implement this command
-    return NOP;
+    for (int i = x; i <= x2; ++i) {
+        setPixel(i, y, pen);
+        setPixel(i, y2, pen);
+    }
+
+    for (int i = y; i <= y2; ++i) {
+        setPixel(x, i, pen);
+        setPixel(x2, i, pen);
+    }
+
+    return m_operations.back();
+}
+
+Operation& Canvas::triangle(const std::string& command, const int x1, const int y1, const int x2, const int y2, const int x3, const int y3, const char pen) {
+    verifyPixel(x1, y1);
+    verifyPixel(x2, y2);
+    verifyPixel(x3, y3);
+
+    addOperation(command);
+
+    drawDiagonalLine(x1, y1, x2, y2, pen);
+    drawDiagonalLine(x2, y2, x3, y3, pen);
+    drawDiagonalLine(x3, y3, x1, y1, pen);
+
+    return m_operations.back();
+}
+
+Operation & Canvas::write(const std::string &command, const int x, const int y, const std::string &text) {
+    verifyPixel(x, y);
+
+    addOperation(command);
+
+    for (int i = 0; i < text.length(); i++) {
+        if (x + i > m_width) break;
+        setPixel(x + i, y, text[i]);
+    }
+
+    return m_operations.back();
+}
+
+void Canvas::plotFill(PixelBuffer& buffer, const int x, const int y, const char pen, const char targetPen) {
+    if (buffer.isSamePen(x, y, targetPen)) {
+        setPixel(x, y, pen);
+        buffer.setPixel(x, y, pen);
+
+        if (buffer.isSamePen(x + 1, y, targetPen)) {
+            plotFill(buffer, x + 1, y, pen, targetPen);
+        }
+
+        if (buffer.isSamePen(x - 1, y, targetPen)) {
+            plotFill(buffer, x - 1, y, pen, targetPen);
+        }
+
+        if (buffer.isSamePen(x, y + 1, targetPen)) {
+            plotFill(buffer, x, y + 1, pen, targetPen);
+        }
+
+        if (buffer.isSamePen(x, y - 1, targetPen)) {
+            plotFill(buffer, x, y - 1, pen, targetPen);
+        }
+    }
+}
+
+Operation& Canvas::fill(const std::string& command, const int x, const int y, const char pen) {
+    verifyPixel(x, y);
+
+    addOperation(command);
+
+    const auto buffer = PixelBuffer::snapshot();
+    const auto targetPen = buffer->getPixel(x, y);
+
+    plotFill(*buffer, x, y, pen, targetPen);
+
+    return m_operations.back();
+}
+
+Operation& Canvas::line(const std::string& command, const int x1, const int y1, const int x2, const int y2, const char pen) {
+    verifyPixel(x1, y1);
+    verifyPixel(x2, y2);
+
+    addOperation(command);
+
+    if (x1 == x2) {
+        drawVerticalLine(x1, y1, y2, pen);
+    } else if (y1 == y2) {
+        drawHorizontalLine(x1, x2, y1, pen);
+    } else {
+        drawDiagonalLine(x1, y1, x2, y2, pen);
+    }
+
+    return m_operations.back();
+}
+
+void Canvas::drawHorizontalLine(const int x1, const int x2, const int y, const char pen) {
+    int startX{x1};
+    int endX {x2};
+
+    if (x1 > x2) {
+        startX = x2;
+        endX = x1;
+    }
+
+    for (int x = startX; x <= endX; ++x) {
+        setPixel(x, y, pen);
+    }
+}
+
+void Canvas::drawVerticalLine(const int x, const int y1, const int y2, const char pen) {
+    int startY{y1};
+    int endY {y2};
+
+    if (y1 > y2) {
+        startY = y2;
+        endY = y1;
+    }
+
+    for (int y = startY; y <= endY; ++y) {
+        setPixel(x, y, pen);
+    }
+}
+
+void Canvas::drawDiagonalLine(int x1, int y1, int x2, int y2, char pen) {
+    int dx = std::abs(x2 - x1);
+    int dy = std::abs(y2 - y1);
+    int sx = x1 < x2 ? 1 : -1;
+    int sy = y1 < y2 ? 1 : -1;
+    int err = dx - dy;
+
+    while (true) {
+        setPixel(x1, y1, pen);
+
+        if (x1 == x2 && y1 == y2) break;
+
+        int e2 = 2 * err;
+
+        if (e2 > -dy) { err -= dy; x1 += sx; }
+        if (e2 < dx) { err += dx; y1 += sy; }
+    }
 }
 
 Operation& Canvas::undo(){
@@ -98,10 +242,9 @@ void Canvas::setCanvas(const int canvasWidth, const int canvasHeight){
 }
 
 void Canvas::setPixel(const int x, const int y, const char pen) {
-    verifyPixel(x, y);
     const std::string p = { pen == 0 ? m_pen : pen };
     const auto text = Palette::format(m_color, m_bgColor, p);
-    addOperationStep(SetPixel{x, y, text});
+    addOperationStep(SetPixel{x, y, text, pen});
 }
 
 void Canvas::setColor(const std::string& color) {

@@ -4,11 +4,13 @@
 #include <ostream>
 #include <variant>
 
+#include "PixelBuffer.h"
+
 template<class... Ts>
 struct overloads : Ts... { using Ts::operator()...; };
 
 static auto visitor = overloads {
-    [](const SetCanvas& op) { Console::drawBorder(op); },
+    [](const SetCanvas& op) { Console::createCanvas(op); },
     [](const SetPixel& op) { Console::drawPixel(op); }
 };
 
@@ -28,17 +30,22 @@ void Console::execute(const Canvas &canvas) {
     moveCursor(0, canvas.getHeight() + 4);
 }
 
-void Console::drawBorder(const SetCanvas& op) {
-    const std::string xLine = '-' + std::string(op.width, '-') + '-';
-    const std::string yLine = '|' + std::string(op.width, ' ') + '|';
+void Console::createCanvas(const SetCanvas& op) {
+    PixelBuffer::getInstance().setSize(op.width, op.height);
 
     blankCanvasArea();
+    drawBorder(op.width, op.height);
+}
+
+void Console::drawBorder(const int width, const int height) {
+    const std::string xLine = '-' + std::string(width, '-') + '-';
+    const std::string yLine = '|' + std::string(width, ' ') + '|';
 
     moveCursor(0, 3);
 
     std::cout << xLine << std::endl;
 
-    for (int y = 0; y < op.height; y++) {
+    for (int y = 0; y < height; y++) {
         std::cout << yLine << std::endl;
     }
 
@@ -46,8 +53,9 @@ void Console::drawBorder(const SetCanvas& op) {
 }
 
 void Console::drawPixel(const SetPixel& op) {
-    moveCursor(op.x + 1, op.y + 3);
+    PixelBuffer::getInstance().setPixel(op.x, op.y, op.pen);
 
+    moveCursor(op.x + 1, op.y + 3);
     std::cout << op.text << std::flush;
 }
 
@@ -84,6 +92,23 @@ void Console::clearScreen() {
 
 void Console::moveCursor(const int x, const int y) {
     std::cout << "\033[" << y << ";" << x << "H" << std::flush;
+}
+
+void Console::dumpPixelBuffer() {
+    const int width = PixelBuffer::getInstance().getWidth();
+    const int height = PixelBuffer::getInstance().getHeight();
+
+    moveCursor(120, 3);
+
+    for (int y = 1; y <= height; y++) {
+        std::string line;
+
+        for (int x = 1; x <= width; x++) {
+            line += PixelBuffer::getInstance().getPixel(x, y);
+        }
+
+        writeAt(line, 120, 2 + y);
+    }
 }
 
 std::string Console::prompt() {

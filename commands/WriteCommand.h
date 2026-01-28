@@ -1,48 +1,49 @@
-#ifndef CPPPICASSO_SAVE_COMMAND_H
-#define CPPPICASSO_SAVE_COMMAND_H
+#ifndef CPPPICASSO_WRITE_TEXT_H
+#define CPPPICASSO_WRITE_TEXT_H
 
-#include <fstream>
 #include <string>
 #include "../command/Command.h"
 
-class SaveCommand : public Command {
+class WriteCommand : public Command {
 public:
     [[nodiscard]] std::string getName() const override {
-        return "S";
+        return "W";
     }
 
     [[nodiscard]] std::string getDescription() const override {
-        return "save to file";
+        return "write 1 1 text";
     }
 
     [[nodiscard]] std::string getExample() const override {
-        return "S hello.txt";
+        return "W 1 1 Hello World!";
     }
 
     [[nodiscard]] std::string getFormat() const override {
-        return "S file";
+        return "W x y text";
     }
 
     Operation& execute(Canvas& canvas, const CommandObject& command) override {
-        if (command.params.size() != 1) {
+        if (command.params.size() < 3) {
             throw std::invalid_argument("Invalid number of parameters.");
         }
 
-        auto& path = command.params[0];
-
         try {
-            std::ofstream out(path);
-            if (!out) throw std::invalid_argument("Cannot open file.");
+            std::string text;
 
-            for (auto& op: canvas) {
-                out << op.text << "\n";
+            const int x1 = std::stoi(command.params[0]);
+            const int y1 = std::stoi(command.params[1]);
+
+            for (int i = 2; i < command.params.size(); ++i) {
+                text += command.params[i] + " ";
             }
 
-            return NOP;
+            text.pop_back();
+
+            return canvas.write(command.text, x1, y1, text);
         } catch (const std::invalid_argument& e) {
             throw std::invalid_argument("Invalid canvas dimensions.");
         }
     }
 };
 
-#endif //CPPPICASSO_SAVE_COMMAND_H
+#endif //CPPPICASSO_WRITE_TEXT_H

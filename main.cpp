@@ -6,6 +6,7 @@
 #include "command/CommandManager.h"
 #include "Core/Console.h"
 #include "Core/Help.h"
+#include "Core/PixelBuffer.h"
 
 int main() {
     Canvas canvas;
@@ -39,9 +40,12 @@ int main() {
                     Console::execute(op);
                     break;
             }
+
+            Console::dumpPixelBuffer();
+
         } catch (const std::exception& e) {
             auto error = "Synax Error: " + text + " (" + std::string(e.what()) + ")";
-            auto msg = error.size() > 50 ? error.substr(0, 47) + "..." : error;
+            auto msg = error.size() > 60 ? error.substr(0, 57) + "..." : error;
             showCommand(msg);
         }
     }

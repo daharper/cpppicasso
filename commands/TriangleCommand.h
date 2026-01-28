@@ -1,29 +1,33 @@
-#ifndef CPPPICASSO_LINE_COMMAND_H
-#define CPPPICASSO_LINE_COMMAND_H
+//
+// Created by david on 28/1/2026.
+//
+
+#ifndef CPPPICASSO_TRIANGLE_COMMAND_H
+#define CPPPICASSO_TRIANGLE_COMMAND_H
 
 #include <string>
 #include "../command/Command.h"
 
-class LineCommand : public Command {
+class TriangleCommand: public Command {
 public:
     [[nodiscard]] std::string getName() const override {
-        return "L";
+        return "T";
     }
 
     [[nodiscard]] std::string getDescription() const override {
-        return "draws a line";
+        return "draws a triangle";
     }
 
     [[nodiscard]] std::string getExample() const override {
-        return "L 1 1 4 1 @";
+        return "T 4 1 1 4 8 4 @";
     }
 
     [[nodiscard]] std::string getFormat() const override {
-        return "L x1 y1 x2 y2 [pen]";
+        return "T x1 y1 x2 y2 x3 y3 [pen]";
     }
 
     Operation& execute(Canvas& canvas, const CommandObject& command) override {
-        if (command.params.size() < 4 || command.params.size() > 5) {
+        if (command.params.size() < 6 || command.params.size() > 7) {
             throw std::invalid_argument("Invalid number of parameters.");
         }
 
@@ -34,20 +38,18 @@ public:
             const int y1 = std::stoi(command.params[1]);
             const int x2 = std::stoi(command.params[2]);
             const int y2 = std::stoi(command.params[3]);
+            const int x3 = std::stoi(command.params[4]);
+            const int y3 = std::stoi(command.params[5]);
 
-            if (command.params.size() == 5) {
-                pen = command.params[4][0];
+            if (command.params.size() == 7) {
+                pen = command.params[6][0];
             }
 
-            if (x1 == x2 && y1 == y2) {
-                return canvas.plot(command.text, x1, y1, pen);
-            }
-
-            return canvas.line(command.text, x1, y1, x2, y2, pen);
-        } catch (const std::invalid_argument& e) {
+             return canvas.triangle(command.text, x1, y1, x2, y2, x3, y3, pen);
+        } catch (...) {
             throw std::invalid_argument("Invalid canvas dimensions.");
         }
     }
 };
 
-#endif //CPPPICASSO_LINE_COMMAND_H
+#endif //CPPPICASSO_TRIANGLE_COMMAND_H

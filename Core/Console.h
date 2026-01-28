@@ -10,6 +10,9 @@ public:
     static void blankCanvasArea();
 
     static void moveCursor(int x, int y);
+
+    static void dumpPixelBuffer() ;
+
     static void write(const std::string& text);
     static void writeLine(const std::string& text);
     static void writeAt(const std::string& text, int x, int y);
@@ -18,9 +21,11 @@ public:
     static void execute(const Canvas& canvas);
     static void execute(const Operation &operation);
 
-    static void drawBorder(const SetCanvas& op);
+    static void createCanvas(const SetCanvas& op);
     static void drawPixel(const SetPixel& op);
-};
 
+private:
+    inline static void drawBorder(int width, int height);
+};
 
 #endif //CPPPICASSO_RENDERER_H
