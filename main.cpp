@@ -9,10 +9,9 @@
 
 int main() {
     Canvas canvas;
-
     Console::clearScreen();
-    const auto showCommand = Help::show();
 
+    const auto showCommand = Help::show();
     auto& manager = CommandManager::getInstance();
 
     while (true) {

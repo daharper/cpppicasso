@@ -11,7 +11,7 @@ public:
     }
 
     [[nodiscard]] std::string getDescription() const override {
-        return "write 1 1 text";
+        return "write text";
     }
 
     [[nodiscard]] std::string getExample() const override {
