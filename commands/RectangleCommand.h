@@ -27,42 +27,38 @@ public:
             throw std::invalid_argument("Invalid number of parameters.");
         }
 
-        try {
-            char pen = canvas.getPen();
+        char pen = canvas.getPen();
 
-            int x1 = std::stoi(command.params[0]);
-            int y1 = std::stoi(command.params[1]);
-            int x2 = std::stoi(command.params[2]);
-            int y2 = std::stoi(command.params[3]);
+        int x1 = std::stoi(command.params[0]);
+        int y1 = std::stoi(command.params[1]);
+        int x2 = std::stoi(command.params[2]);
+        int y2 = std::stoi(command.params[3]);
 
-            if (command.params.size() == 5) {
-                pen = command.params[4][0];
-            }
-
-            if (x2 < x1 || y2 < y1) {
-                std::swap(x1, x2);
-                std::swap(y1, y2);
-            }
-
-            const int w = x2 - x1 + 1;
-            const int h = y2 - y1 + 1;
-
-            if (w == 1 && h == 1) {
-                return canvas.plot(command.text, x1, y1, pen);
-            }
-
-            if (w == 1 || h == 1) {
-                return canvas.line(command.text, x1, y1, x2, y2, pen);
-            }
-
-            if (w < 1 || h < 1) {
-                throw std::invalid_argument("Invalid rectangle dimensions.");
-            }
-
-            return canvas.rectangle(command.text, x1, y1, w, h, pen);
-        } catch (...) {
-            throw std::invalid_argument("Invalid canvas dimensions.");
+        if (command.params.size() == 5) {
+            pen = command.params[4][0];
         }
+
+        if (x2 < x1 || y2 < y1) {
+            std::swap(x1, x2);
+            std::swap(y1, y2);
+        }
+
+        const int w = x2 - x1 + 1;
+        const int h = y2 - y1 + 1;
+
+        if (w == 1 && h == 1) {
+            return canvas.plot(command.text, x1, y1, pen);
+        }
+
+        if (w == 1 || h == 1) {
+            return canvas.line(command.text, x1, y1, x2, y2, pen);
+        }
+
+        if (w < 1 || h < 1) {
+            throw std::invalid_argument("Invalid rectangle dimensions.");
+        }
+
+        return canvas.rectangle(command.text, x1, y1, w, h, pen);
     }
 };
 

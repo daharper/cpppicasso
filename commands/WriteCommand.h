@@ -27,22 +27,18 @@ public:
             throw std::invalid_argument("Invalid number of parameters.");
         }
 
-        try {
-            std::string text;
+        std::string text;
 
-            const int x1 = std::stoi(command.params[0]);
-            const int y1 = std::stoi(command.params[1]);
+        const int x1 = std::stoi(command.params[0]);
+        const int y1 = std::stoi(command.params[1]);
 
-            for (int i = 2; i < command.params.size(); ++i) {
-                text += command.params[i] + " ";
-            }
-
-            text.pop_back();
-
-            return canvas.write(command.text, x1, y1, text);
-        } catch (const std::invalid_argument& e) {
-            throw std::invalid_argument("Invalid canvas dimensions.");
+        for (int i = 2; i < command.params.size(); ++i) {
+            text += command.params[i] + " ";
         }
+
+        text.pop_back();
+
+        return canvas.write(command.text, x1, y1, text);
     }
 };
 

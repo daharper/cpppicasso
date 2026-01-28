@@ -1,7 +1,3 @@
-//
-// Created by david on 26/1/2026.
-//
-
 #ifndef CPPPICASSO_LOAD_COMMAND_H
 #define CPPPICASSO_LOAD_COMMAND_H
 
@@ -11,7 +7,7 @@
 #include "../command/Command.h"
 #include "../command/CommandInputParser.h"
 #include "../command/CommandManager.h"
-#include "../Core/Console.h"
+#include "../graphics/Console.h"
 
 class LoadCommand : public Command {
 public:

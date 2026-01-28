@@ -1,13 +1,8 @@
-//
-// Created by david on 21/1/2026.
-//
-
 #ifndef CPPPICASSO_PALETTE_H
 #define CPPPICASSO_PALETTE_H
 
 #include <string>
 #include <map>
-#include <optional>
 #include <stdexcept>
 
 #include "../Utils.h"

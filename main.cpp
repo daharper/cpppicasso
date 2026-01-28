@@ -1,12 +1,11 @@
-#include <iostream>
 #include <string>
-#include "Core/Canvas.h"
 #include "command/CommandInputParser.h"
 #include "command/CommandObject.h"
 #include "command/CommandManager.h"
-#include "Core/Console.h"
-#include "Core/Help.h"
-#include "Core/PixelBuffer.h"
+#include "graphics/Canvas.h"
+#include "graphics/Console.h"
+#include "graphics/Help.h"
+#include "graphics/PixelBuffer.h"
 
 int main() {
     Canvas canvas;

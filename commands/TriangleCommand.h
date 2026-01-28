@@ -1,7 +1,3 @@
-//
-// Created by david on 28/1/2026.
-//
-
 #ifndef CPPPICASSO_TRIANGLE_COMMAND_H
 #define CPPPICASSO_TRIANGLE_COMMAND_H
 
@@ -31,24 +27,20 @@ public:
             throw std::invalid_argument("Invalid number of parameters.");
         }
 
-        try {
-            char pen = canvas.getPen();
+        char pen = canvas.getPen();
 
-            const int x1 = std::stoi(command.params[0]);
-            const int y1 = std::stoi(command.params[1]);
-            const int x2 = std::stoi(command.params[2]);
-            const int y2 = std::stoi(command.params[3]);
-            const int x3 = std::stoi(command.params[4]);
-            const int y3 = std::stoi(command.params[5]);
+        const int x1 = std::stoi(command.params[0]);
+        const int y1 = std::stoi(command.params[1]);
+        const int x2 = std::stoi(command.params[2]);
+        const int y2 = std::stoi(command.params[3]);
+        const int x3 = std::stoi(command.params[4]);
+        const int y3 = std::stoi(command.params[5]);
 
-            if (command.params.size() == 7) {
-                pen = command.params[6][0];
-            }
-
-             return canvas.triangle(command.text, x1, y1, x2, y2, x3, y3, pen);
-        } catch (...) {
-            throw std::invalid_argument("Invalid canvas dimensions.");
+        if (command.params.size() == 7) {
+            pen = command.params[6][0];
         }
+
+        return canvas.triangle(command.text, x1, y1, x2, y2, x3, y3, pen);
     }
 };
 

@@ -1,13 +1,8 @@
-//
-// Created by david on 23/1/2026.
-//
-
 #ifndef CPPPICASSO_UTILS_H
 #define CPPPICASSO_UTILS_H
 
 #include <string>
 #include <algorithm>
-#include <string_view>
 
 /**
  * @brief Case insensitive comparison.

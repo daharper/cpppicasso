@@ -30,18 +30,14 @@ public:
 
         auto& path = command.params[0];
 
-        try {
-            std::ofstream out(path);
-            if (!out) throw std::invalid_argument("Cannot open file.");
+        std::ofstream out(path);
+        if (!out) throw std::invalid_argument("Cannot open file.");
 
-            for (auto& op: canvas) {
-                out << op.text << "\n";
-            }
-
-            return NOP;
-        } catch (const std::invalid_argument& e) {
-            throw std::invalid_argument("Invalid canvas dimensions.");
+        for (auto& op: canvas) {
+            out << op.text << "\n";
         }
+
+        return NOP;
     }
 };
 

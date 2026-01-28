@@ -27,11 +27,7 @@ public:
             throw std::invalid_argument("Invalid number of parameters.");
         }
 
-        try {
-            return canvas.undo();
-        } catch (const std::invalid_argument& e) {
-            throw std::invalid_argument("Invalid canvas dimensions.");
-        }
+        return canvas.undo();
     }
 };
 

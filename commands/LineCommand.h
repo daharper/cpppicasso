@@ -27,26 +27,22 @@ public:
             throw std::invalid_argument("Invalid number of parameters.");
         }
 
-        try {
-            char pen = canvas.getPen();
+        char pen = canvas.getPen();
 
-            const int x1 = std::stoi(command.params[0]);
-            const int y1 = std::stoi(command.params[1]);
-            const int x2 = std::stoi(command.params[2]);
-            const int y2 = std::stoi(command.params[3]);
+        const int x1 = std::stoi(command.params[0]);
+        const int y1 = std::stoi(command.params[1]);
+        const int x2 = std::stoi(command.params[2]);
+        const int y2 = std::stoi(command.params[3]);
 
-            if (command.params.size() == 5) {
-                pen = command.params[4][0];
-            }
-
-            if (x1 == x2 && y1 == y2) {
-                return canvas.plot(command.text, x1, y1, pen);
-            }
-
-            return canvas.line(command.text, x1, y1, x2, y2, pen);
-        } catch (const std::invalid_argument& e) {
-            throw std::invalid_argument("Invalid canvas dimensions.");
+        if (command.params.size() == 5) {
+            pen = command.params[4][0];
         }
+
+        if (x1 == x2 && y1 == y2) {
+            return canvas.plot(command.text, x1, y1, pen);
+        }
+
+        return canvas.line(command.text, x1, y1, x2, y2, pen);
     }
 };
 

@@ -1,7 +1,3 @@
-//
-// Created by david on 23/1/2026.
-//
-
 #ifndef CPPPICASSO_INPUT_PARSER_H
 #define CPPPICASSO_INPUT_PARSER_H
 

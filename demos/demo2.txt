@@ -1,0 +1,27 @@
+C 40 13
+W 1 1 David Harper
+W 1 2 C++ Developer
+W 1 3 X10X X57X
+L 1 5 16 5 .
+L 16 1 16 5 :
+T 33 1 28 4 36 4 *
+D 29 5 |
+D 29 6 |
+D 35 5 |
+D 35 6 |
+D 31 5 O
+D 33 5 O
+D 32 6 -
+B 32 3 *
+L 26 7 38 7
+L 31 7 28 9
+L 34 7 36 9
+L 25 7 22 4 \
+L 20 3 22 3 +
+L 21 2 21 4 +
+W 1 7 + Eligible to work
+W 1 8 + Available now
+W 1 9 + Locally based
+L 1 11 40 11 _
+W 3 12 email: david@beyondvelocity.com.au
+W 3 13 blog:  https://beyondvelocity.blog/

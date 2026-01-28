@@ -27,13 +27,9 @@ public:
             throw std::invalid_argument("Invalid number of parameters.");
         }
 
-        try {
-            const char pen = command.params[0][0];
-            canvas.setPen(pen);
-            return NOP;
-        } catch (const std::invalid_argument& e) {
-            throw std::invalid_argument("Invalid canvas dimensions.");
-        }
+        const char pen = command.params[0][0];
+        canvas.setPen(pen);
+        return NOP;
     }
 };
 

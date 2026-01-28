@@ -1,10 +1,5 @@
-//
-// Created by david on 27/1/2026.
-//
-
 #include "PixelBuffer.h"
 
-#include <iostream>
 #include <stdexcept>
 
 char PixelBuffer::getPixel(const int x, const int y) const {

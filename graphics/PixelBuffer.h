@@ -1,8 +1,8 @@
 #ifndef CPPPICASSO_PIXELS_H
 #define CPPPICASSO_PIXELS_H
+
 #include <memory>
 #include <vector>
-
 
 class PixelBuffer {
 public:

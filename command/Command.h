@@ -3,7 +3,7 @@
 
 #include <string>
 #include "CommandObject.h"
-#include "../Core/Canvas.h"
+#include "../graphics/Canvas.h"
 
 class Command {
 public:
